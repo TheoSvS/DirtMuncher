@@ -4,6 +4,9 @@ import com.dirtmuncher.model.Coords;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * The response DTO for the robot's activity
+ */
 @Data
 @NoArgsConstructor
 public class RobotActivityRespDTO {

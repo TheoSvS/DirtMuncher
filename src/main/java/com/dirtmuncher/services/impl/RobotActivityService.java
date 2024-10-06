@@ -10,6 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 
+/**
+ * Implementation for the robot activity
+ */
 @Slf4j
 @Service
 public class RobotActivityService implements IRobotActivityService {
@@ -21,6 +24,11 @@ public class RobotActivityService implements IRobotActivityService {
         this.transformer = transformer;
     }
 
+    /** Accepts a RobotActivityReqDTO and after applying the required logic returns a RobotActivityRespDTO
+     * containing the final state after the robot's activity
+     * @param reqDTO the request dto
+     * @return the response dto
+     */
     public RobotActivityRespDTO getActivityResult(RobotActivityReqDTO reqDTO) {
         RobotActivityState robotState = transformer.reqDTOToDomain(reqDTO);
         iExecuteCommands.executePlan(robotState);

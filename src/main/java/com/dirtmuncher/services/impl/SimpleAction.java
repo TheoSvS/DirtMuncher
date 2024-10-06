@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.HashSet;
 
+/**
+ * Implementation for the robot's supported actions
+ */
 @Component
 public class SimpleAction implements ISimpleAction {
     public SimpleAction() {

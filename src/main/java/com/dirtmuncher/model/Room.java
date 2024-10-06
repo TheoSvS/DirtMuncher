@@ -4,6 +4,9 @@ package com.dirtmuncher.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Models the room dimensions
+ */
 @NoArgsConstructor
 @Data
 public class Room {

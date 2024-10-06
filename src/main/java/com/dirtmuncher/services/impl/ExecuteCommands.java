@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * Implementation for the execution of the robot commands
+ */
 @Component
 public class ExecuteCommands implements IExecuteCommands {
 
@@ -20,6 +23,10 @@ public class ExecuteCommands implements IExecuteCommands {
         this.iSimpleAction = iSimpleAction;
     }
 
+    /** Accepts a RobotActivityState containing the initial state of the robot
+     * and applies the requested commands
+     * @param robotActivity the robot activity's final state
+     */
     @Override
     public void executePlan(RobotActivityState robotActivity) {
         int xDim = robotActivity.getRoom().getXDim();

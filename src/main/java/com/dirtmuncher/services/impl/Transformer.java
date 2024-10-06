@@ -5,6 +5,9 @@ import com.dirtmuncher.requests.RobotActivityReqDTO;
 import com.dirtmuncher.responses.RobotActivityRespDTO;
 import org.springframework.stereotype.Component;
 
+/**
+ * Transformations to and from DTOs and Domain objects
+ */
 @Component
 public class Transformer {
     public RobotActivityState reqDTOToDomain(RobotActivityReqDTO reqDTO){

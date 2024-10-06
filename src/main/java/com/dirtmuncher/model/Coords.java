@@ -3,6 +3,9 @@ package com.dirtmuncher.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Models coordinates
+ */
 @NoArgsConstructor
 @Data
 public class Coords {

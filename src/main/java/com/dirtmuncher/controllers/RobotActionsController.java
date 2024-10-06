@@ -2,7 +2,8 @@ package com.dirtmuncher.controllers;
 
 import com.dirtmuncher.requests.RobotActivityReqDTO;
 import com.dirtmuncher.responses.RobotActivityRespDTO;
-import com.dirtmuncher.services.impl.RobotActivityService;
+import com.dirtmuncher.services.def.IRobotActivityService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,15 +16,15 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = " * ", allowedHeaders = " * ")
 @RequestMapping(value = "/api/v1")
 public class RobotActionsController {
-    private final RobotActivityService robotActivityService;
+    private final IRobotActivityService iRobotActivityService;
 
-    public RobotActionsController(RobotActivityService robotActivityService) {
-        this.robotActivityService = robotActivityService;
+    public RobotActionsController(IRobotActivityService iRobotActivityService) {
+        this.iRobotActivityService = iRobotActivityService;
     }
 
     @PostMapping(value = "/execute")
-    public ResponseEntity<RobotActivityRespDTO> getRobotActionsResult(@RequestBody RobotActivityReqDTO robotActivityReqDTO) {
-        RobotActivityRespDTO robotActivityRespDTO = robotActivityService.getActivityResult(robotActivityReqDTO);
+    public ResponseEntity<RobotActivityRespDTO> getRobotActionsResult(@Valid @RequestBody RobotActivityReqDTO robotActivityReqDTO) {
+        RobotActivityRespDTO robotActivityRespDTO = iRobotActivityService.getActivityResult(robotActivityReqDTO);
         if (robotActivityRespDTO != null) { //TODO: if validation is ok
             return ResponseEntity.ok(robotActivityRespDTO);
         }
