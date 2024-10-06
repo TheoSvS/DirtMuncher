@@ -4,6 +4,11 @@ import lombok.Data;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuration class for setting up custom logging filters.
+ * This configuration defines a CustomLoggingFilter bean that is used
+ * to log incoming requests
+ */
 @Configuration
 @Data
 public class LoggingConfiguration {

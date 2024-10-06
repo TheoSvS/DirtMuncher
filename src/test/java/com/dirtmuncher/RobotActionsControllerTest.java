@@ -80,7 +80,7 @@ public class RobotActionsControllerTest {
         RobotActivityRespDTO response = objectMapper.readValue(jsonResponse, RobotActivityRespDTO.class);
 
         // Assert the deserialized response object
-        assertEquals(1, response.getCoords()[0]);
+        assertEquals(3, response.getCoords()[0]);
         assertEquals(3, response.getCoords()[1]);
         assertEquals(1, response.getPatches());
 

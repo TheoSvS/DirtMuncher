@@ -2,7 +2,6 @@ package com.dirtmuncher.services.impl;
 
 import com.dirtmuncher.Utils;
 import com.dirtmuncher.model.RobotActivityState;
-import com.dirtmuncher.requests.RobotActivityReqDTO;
 import com.dirtmuncher.services.def.IExecuteCommands;
 import com.dirtmuncher.services.def.ISimpleAction;
 import org.springframework.stereotype.Component;
@@ -22,14 +21,12 @@ public class ExecuteCommands implements IExecuteCommands {
     }
 
     @Override
-    public RobotActivityState executePlan(RobotActivityReqDTO actReqDto) {
-        int xDim = actReqDto.getRoomSize()[0];
-        int yDim = actReqDto.getRoomSize()[1];
-        int dirtPatchCount = actReqDto.getPatches().size();
-        List<int[]> dirtPatches = actReqDto.getPatches();
-        double dirtRatio = (double) dirtPatchCount/(xDim * yDim) ;
-
-        RobotActivityState robotActivityState = new RobotActivityState(actReqDto.getCoords(), 0);
+    public void executePlan(RobotActivityState robotActivity) {
+        int xDim = robotActivity.getRoom().getXDim();
+        int yDim = robotActivity.getRoom().getYDim();
+        int dirtPatchCount = robotActivity.getPatches().size();
+        List<int[]> dirtPatches = robotActivity.getPatches();
+        double dirtRatio = (double) dirtPatchCount / (xDim * yDim);
 
         HashMap<Integer, HashSet<Integer>> dirtCoordsMap;
         boolean[][] grid;
@@ -38,36 +35,35 @@ public class ExecuteCommands implements IExecuteCommands {
         switch (Utils.optimalFootPrintAlgo(dirtRatio)) {
             case SPARSE_GRID_HASHMAP -> {
                 dirtCoordsMap = Utils.dirtToSparseGridMap(dirtPatches);
-                cleanIfDirtyRunnable = () -> iSimpleAction.cleanIfDirty(dirtCoordsMap, robotActivityState);
+                cleanIfDirtyRunnable = () -> iSimpleAction.cleanIfDirty(dirtCoordsMap, robotActivity);
             }
             case FULL_GRID_2D_ARRAY -> {
-                grid = Utils.dirtToFull2DGrid(actReqDto.getRoomSize(), dirtPatches);
-                cleanIfDirtyRunnable = () -> iSimpleAction.cleanIfDirty(grid, robotActivityState);
+                grid = Utils.dirtToFull2DGrid(robotActivity.getRoom().getDimensions(), dirtPatches);
+                cleanIfDirtyRunnable = () -> iSimpleAction.cleanIfDirty(grid, robotActivity);
             }
             default -> {
                 throw new UnsupportedOperationException("Not supported lookup algorithm");
             }
         }
 
-        doCommands(actReqDto, robotActivityState, cleanIfDirtyRunnable);
-        return robotActivityState;
+        doCommands(robotActivity, cleanIfDirtyRunnable);
     }
 
-    private void doCommands(RobotActivityReqDTO actReqDto, RobotActivityState robotActivityState, Runnable cleanIfDirtyRunnable) {
-        for (int i = 0; i < actReqDto.getInstructions().length(); i++) {
-            char command = actReqDto.getInstructions().charAt(i);
+    private void doCommands(RobotActivityState robotActivity, Runnable cleanIfDirtyRunnable) {
+        for (int i = 0; i < robotActivity.getInstructions().length(); i++) {
+            char command = robotActivity.getInstructions().charAt(i);
             switch (command) {
                 case 'N' -> {
-                    iSimpleAction.moveUp(actReqDto.getRoomSize(), robotActivityState);
+                    iSimpleAction.moveUp(robotActivity.getRoom().getDimensions(), robotActivity);
                 }
                 case 'S' -> {
-                    iSimpleAction.moveDown(actReqDto.getRoomSize(), robotActivityState);
+                    iSimpleAction.moveDown(robotActivity.getRoom().getDimensions(), robotActivity);
                 }
                 case 'W' -> {
-                    iSimpleAction.moveRight(actReqDto.getRoomSize(), robotActivityState);
+                    iSimpleAction.moveRight(robotActivity.getRoom().getDimensions(), robotActivity);
                 }
                 case 'E' -> {
-                    iSimpleAction.moveLeft(actReqDto.getRoomSize(), robotActivityState);
+                    iSimpleAction.moveLeft(robotActivity.getRoom().getDimensions(), robotActivity);
                 }
             }
             cleanIfDirtyRunnable.run();

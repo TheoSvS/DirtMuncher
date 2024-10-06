@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 
+/**
+ * Configuration to provide AuthenticationManager bean. Currently, we explicitly don't have any auth needs.
+ */
 @Configuration
 @Data
 public class AuthenticationConfiguration {

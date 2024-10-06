@@ -4,6 +4,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 
+/**
+ * CustomLoggingFilter allows for tweaking the message logged request message to add the request addr IP
+ */
 public class CustomLoggingFilter extends CommonsRequestLoggingFilter {
 
     @Override
