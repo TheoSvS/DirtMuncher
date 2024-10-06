@@ -1,0 +1,34 @@
+<configuration>
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}}/spring.log}"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+
+    <appender name="GENERAL_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/general.log</file>
+        <encoder>
+            <pattern>%date{ISO8601} [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Specific File Appender for rest api calls -->
+    <appender name="REQUESTS_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/requests.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%date{ISO8601} [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Root Logger -->
+    <root level="info">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="GENERAL_FILE" />
+    </root>
+
+    <!-- Logger for logging Requests with CommonsRequestLoggingFilter -->
+    <logger name="com.dirtmuncher.configuration.CustomLoggingFilter" level="DEBUG" additivity="false">
+        <appender-ref ref="REQUESTS_FILE" />
+    </logger>
+
+</configuration>

@@ -1,0 +1,8 @@
+services:
+  webappl:
+    build:
+      context: .
+      dockerfile: DockerFile
+    container_name: muncher-container
+    ports:
+      - "8080:8080"

@@ -1,0 +1,23 @@
+FROM maven:3.9.6 as maven
+LABEL APPLICATION="DIRT MUNCHER"
+#Copy source files and maven package build application
+WORKDIR /app
+COPY . /app
+RUN mvn clean package
+
+
+FROM openjdk:22-slim
+# Create a directory for logs
+RUN mkdir /logs
+WORKDIR /app
+# Copy the built jar from the Maven build stage
+COPY --from=maven /app/target/DirtMuncher-0.0.1-SNAPSHOT.jar /app/DirtMuncher-0.0.1-SNAPSHOT.jar
+#Data & Config - Persistent Mount Point
+ENV APP_DATA_FOLDER=/var/lib/DirtMuncher
+ENV SAMPLE_APP_CONFIG=${APP_DATA_FOLDER}/config/
+
+EXPOSE 8080
+
+CMD ["java", "-jar", "DirtMuncher-0.0.1-SNAPSHOT.jar"]
+
+
