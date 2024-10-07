@@ -1,11 +1,13 @@
 package com.dirtmuncher.requests;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -23,20 +25,28 @@ public class RobotActivityReqDTO {
     int[] coords;
 
     @NotNull(message = "patches cannot be null")
+    private List<int[]> patches;
 
-    private List<@Size(min = 2, max = 2, message = "Each patch must have exactly 2 coordinates") int[]> patches;
-
+    @NotNull(message = "instructions cannot be null")
     @NotBlank(message = "instructions cannot be empty")
     String instructions;
 
-    @AssertTrue(message = "All coordinate values must be non-negative")
-    public boolean isRoomSizeValid() {
-        for (int value : roomSize) {
-            if(value<0){
-                return false;
-            }
+    @AssertTrue(message = "dirt patch coordinates cannot contain null and must have exactly 2 non-negative elements")
+    public boolean hasValidDirtPatches() {
+        return patches.stream()
+                .filter(coords -> coords == null || coords.length != 2 || Arrays.stream(coords).anyMatch(coord -> coord < 0))
+                .toList()
+                .isEmpty();
+    }
+
+    @AssertTrue(message = "Room size and robot coords must be non-negative")
+    public boolean hasNonNegativeCoordinates() {
+        if (roomSize == null || coords == null) {
+            return true; //To allow the @NotNull annotations to handle this
         }
-        return true;
+        return Arrays.stream(roomSize).noneMatch(coord -> coord < 0) &&
+                Arrays.stream(coords).noneMatch(coord -> coord < 0) ;
+
     }
 
     public RobotActivityReqDTO(int[] roomDim, int[] coords, List<int[]> dirtPatches, String instructions) {

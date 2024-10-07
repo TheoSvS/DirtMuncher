@@ -86,4 +86,100 @@ public class RobotActionsControllerTest {
 
     }
 
+    @Test
+    public void negativeRoomSize_shouldReturnBadRequest() throws Exception {
+        String jsonRequest = objectMapper.writeValueAsString(new RobotActivityReqDTO(
+                new int[]{-5, 5},
+                new int[]{1, 2},
+                List.of(
+                        new int[]{1, 0},
+                        new int[]{2, 2},
+                        new int[]{2, 3}
+                ),
+                "NNESEESWNWW"
+        ));
+        System.out.println(jsonRequest);
+
+        MockHttpServletResponse result = mockMvc.perform(post("/api/v1/execute")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
+                .andExpect(status().isBadRequest())
+                .andReturn()
+                .getResponse();
+
+        System.out.println(result.getContentAsString());
+    }
+
+    @Test
+    public void negativeStartingCoords_shouldReturnBadRequest() throws Exception {
+        String jsonRequest = objectMapper.writeValueAsString(new RobotActivityReqDTO(
+                new int[]{5, 5},
+                new int[]{-1, 2},
+                List.of(
+                        new int[]{1, 0},
+                        new int[]{2, 2},
+                        new int[]{2, 3}
+                ),
+                "NNESEESWNWW"
+        ));
+        System.out.println(jsonRequest);
+
+        MockHttpServletResponse result = mockMvc.perform(post("/api/v1/execute")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
+                .andExpect(status().isBadRequest())
+                .andReturn()
+                .getResponse();
+
+        System.out.println(result.getContentAsString());
+    }
+
+    @Test
+    public void negativePatchCoords_shouldReturnBadRequest() throws Exception {
+        String jsonRequest = objectMapper.writeValueAsString(new RobotActivityReqDTO(
+                new int[]{5, 5},
+                new int[]{1, 2},
+                List.of(
+                        new int[]{1, 0},
+                        new int[]{2, 2},
+                        new int[]{-2, 3}
+                ),
+                "NNESEESWNWW"
+        ));
+        System.out.println(jsonRequest);
+
+        MockHttpServletResponse result = mockMvc.perform(post("/api/v1/execute")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
+                .andExpect(status().isBadRequest())
+                .andReturn()
+                .getResponse();
+
+        System.out.println(result.getContentAsString());
+    }
+
+    @Test
+    public void nullField_shouldReturnBadRequest() throws Exception {
+        String jsonRequest = objectMapper.writeValueAsString(new RobotActivityReqDTO(
+                null,
+                new int[]{1, 2},
+                List.of(
+                        new int[]{1, 0},
+                        new int[]{2, 2},
+                        new int[]{2, 3}
+                ),
+                "NNESEESWNWW"
+        ));
+        System.out.println(jsonRequest);
+
+        MockHttpServletResponse result = mockMvc.perform(post("/api/v1/execute")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest))
+                .andExpect(status().isBadRequest())
+                .andReturn()
+                .getResponse();
+
+        System.out.println(result.getContentAsString());
+    }
+
 }

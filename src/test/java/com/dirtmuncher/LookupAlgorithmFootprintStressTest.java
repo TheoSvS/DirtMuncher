@@ -14,7 +14,7 @@ import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 @SpringBootTest
-class DirtMuncherApplicationTests {
+class LookupAlgorithmFootprintStressTest {
     static final int MAX_GRID_AREA = 1000000;
     static int gridXsize;
     static int gridYsize;
@@ -61,7 +61,7 @@ class DirtMuncherApplicationTests {
                 gridYsize = gridYsize * 10;
             }
         }
-        System.out.println("Optimal Algo selection:" + (100d * optimalAlgoSelection) / totalTestCases + "% of cases");
+        System.out.println("\n\nOptimal Algo selection:" + (100d * optimalAlgoSelection) / totalTestCases + "% of cases");
     }
 
     void rankBySmallestFootprint() throws InterruptedException {
@@ -87,7 +87,7 @@ class DirtMuncherApplicationTests {
 
             System.out.println(System.lineSeparator() + "=======================================");
             System.out.println(gridXsize + "X" + gridYsize + " , dirtRatio:" + String.format("%.6f", dirtyRatio) + " , patches:" + totalDirtyPatches);
-            algoRank.entrySet().forEach(e -> System.out.println(e.getValue() + String.format("%.3f", (e.getKey().longValue() / 1024d) / 1024d) + "MB"));
+            algoRank.entrySet().forEach(e -> System.out.println(e.getValue() + String.format("  %.3f", (e.getKey().longValue() / 1024d) / 1024d) + "MB"));
 
             List<Map.Entry<Long, EAlgorithmSelection>> rankedAlgorithms = new ArrayList<>(algoRank.entrySet());
             //Assert that the optimalFootprint algorithm was selected based on the ranking of the algorithms
