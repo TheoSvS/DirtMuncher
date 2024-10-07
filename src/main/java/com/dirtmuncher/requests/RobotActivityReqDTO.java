@@ -4,9 +4,7 @@ package com.dirtmuncher.requests;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.Arrays;
 import java.util.List;
-
 
 
 /**
@@ -15,36 +13,47 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class RobotActivityReqDTO {
-    @Size(min = 2, max = 2, message = "roomSize must have exactly 2 elements")
-    @NotNull(message = "roomSize cannot be null")
+    @Size(min = 2, max = 2, message = "RoomSize must have exactly 2 elements")
+    @NotNull(message = "RoomSize cannot be null")
     int[] roomSize;
 
-    @Size(min = 2, max = 2, message = "coords must have exactly 2 elements")
-    @NotNull(message = "coords cannot be null")
+    @Size(min = 2, max = 2, message = "Coords must have exactly 2 elements")
+    @NotNull(message = "Coords cannot be null")
     int[] coords;
 
-    @NotNull(message = "patches cannot be null")
+    @NotNull(message = "Patches cannot be null")
     private List<int[]> patches;
 
-    @NotNull(message = "instructions cannot be null")
-    @NotBlank(message = "instructions cannot be empty")
+    @NotNull(message = "Instructions cannot be null")
+    @NotBlank(message = "Instructions cannot be empty")
     String instructions;
 
-    @AssertTrue(message = "dirt patch coordinates cannot contain null and must have exactly 2 non-negative elements")
+    //NOTE: Could skip validation of coords of dirt patches here, and skip any invalid ones during processing,
+    // so we don't iterate them twice. Could improve performance if we have really large List of dirt patches
+    @AssertTrue(message = "Dirt patch coordinates cannot be null, must have exactly 2 non-negative elements within room size")
     public boolean hasValidDirtPatches() {
-        return patches.stream()
-                .filter(coords -> coords == null || coords.length != 2 || Arrays.stream(coords).anyMatch(coord -> coord < 0))
-                .toList()
-                .isEmpty();
+        if (roomSize == null) {
+            return true; //To allow the @NotNull annotations to handle roomSize
+        }
+        return patches.parallelStream()
+                .noneMatch(coords -> coords == null
+                        || coords.length != 2
+                        || coords[0] > roomSize[0]
+                        || coords[1] > roomSize[1]
+                        || coords[0] < 0
+                        || coords[1] < 0
+                );
     }
 
-    @AssertTrue(message = "Room size and robot coords must be non-negative")
+    @AssertTrue(message = "Room size and robot coords must be non-negative. Robot coords within room size")
     public boolean hasNonNegativeCoordinates() {
         if (roomSize == null || coords == null) {
-            return true; //To allow the @NotNull annotations to handle this
+            return true; //To allow the @NotNull annotations to handle roomSize and coords
         }
-        return Arrays.stream(roomSize).noneMatch(coord -> coord < 0) &&
-                Arrays.stream(coords).noneMatch(coord -> coord < 0) ;
+        return coords[0] < roomSize[0]
+                && coords[1] < roomSize[1]
+                && coords[0] >= 0
+                && coords[1] >= 0;
 
     }
 

@@ -36,7 +36,7 @@ public class ExecuteCommands implements IExecuteCommands {
         double dirtRatio = (double) dirtPatchCount / (xDim * yDim);
 
         HashMap<Integer, HashSet<Integer>> dirtCoordsMap;
-        boolean[][] grid;
+        boolean[][] dirt2Dgrid;
         Runnable cleanIfDirtyRunnable;
 
         switch (Utils.optimalFootPrintAlgo(dirtRatio)) {
@@ -45,8 +45,8 @@ public class ExecuteCommands implements IExecuteCommands {
                 cleanIfDirtyRunnable = () -> iSimpleAction.cleanIfDirty(dirtCoordsMap, robotActivity);
             }
             case FULL_GRID_2D_ARRAY -> {
-                grid = Utils.dirtToFull2DGrid(robotActivity.getRoom().getDimensions(), dirtPatches);
-                cleanIfDirtyRunnable = () -> iSimpleAction.cleanIfDirty(grid, robotActivity);
+                dirt2Dgrid = Utils.dirtToFull2DGrid(robotActivity.getRoom().getDimensions(), dirtPatches);
+                cleanIfDirtyRunnable = () -> iSimpleAction.cleanIfDirty(dirt2Dgrid, robotActivity);
             }
             default -> {
                 throw new UnsupportedOperationException("Not supported lookup algorithm");

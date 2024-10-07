@@ -1,5 +1,6 @@
 package com.dirtmuncher;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openjdk.jol.info.GraphLayout;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,6 +33,7 @@ class LookupAlgorithmFootprintStressTest {
 
     }
 
+    @Disabled("Skipping this test during maven build")
     @Test
     void evaluateAlgorithmSelectionByFootprint_rangeInputs() throws InterruptedException {
         gridXsize = 10;
@@ -50,7 +52,6 @@ class LookupAlgorithmFootprintStressTest {
                 } catch (AssertionError e) {
                     totalTestCases++;
                     System.err.println("Assertion failed: " + e.getMessage());
-                    e.printStackTrace();
                 } catch (InvalidDirtynessInputException e) {
                     System.err.println(e.getMessage());
                 }

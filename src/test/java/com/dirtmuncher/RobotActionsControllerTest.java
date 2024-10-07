@@ -18,7 +18,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
+
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -96,12 +98,7 @@ public class RobotActionsControllerTest {
         ));
         System.out.println(jsonRequest);
 
-        MockHttpServletResponse result = mockMvc.perform(post("/api/v1/execute")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonRequest))
-                .andExpect(status().isBadRequest())
-                .andReturn()
-                .getResponse();
+        MockHttpServletResponse result = responseFromBadRequest(jsonRequest);
 
         System.out.println(result.getContentAsString());
     }
@@ -120,12 +117,7 @@ public class RobotActionsControllerTest {
         ));
         System.out.println(jsonRequest);
 
-        MockHttpServletResponse result = mockMvc.perform(post("/api/v1/execute")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonRequest))
-                .andExpect(status().isBadRequest())
-                .andReturn()
-                .getResponse();
+        MockHttpServletResponse result = responseFromBadRequest(jsonRequest);
 
         System.out.println(result.getContentAsString());
     }
@@ -144,12 +136,7 @@ public class RobotActionsControllerTest {
         ));
         System.out.println(jsonRequest);
 
-        MockHttpServletResponse result = mockMvc.perform(post("/api/v1/execute")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonRequest))
-                .andExpect(status().isBadRequest())
-                .andReturn()
-                .getResponse();
+        MockHttpServletResponse result = responseFromBadRequest(jsonRequest);
 
         System.out.println(result.getContentAsString());
     }
@@ -168,14 +155,57 @@ public class RobotActionsControllerTest {
         ));
         System.out.println(jsonRequest);
 
-        MockHttpServletResponse result = mockMvc.perform(post("/api/v1/execute")
+        MockHttpServletResponse result = responseFromBadRequest(jsonRequest);
+
+        System.out.println(result.getContentAsString());
+    }
+
+    @Test
+    public void dirtPatchesOutsideOfRoom_shouldReturnBadRequest() throws Exception {
+        String jsonRequest = objectMapper.writeValueAsString(new RobotActivityReqDTO(
+                new int[]{5, 5},
+                new int[]{1, 2},
+                List.of(
+                        new int[]{1, 1110},
+                        new int[]{2, 2},
+                        new int[]{2, 3}
+                ),
+                "NNESEESWNWW"
+        ));
+        System.out.println(jsonRequest);
+
+        MockHttpServletResponse result = responseFromBadRequest(jsonRequest);
+
+        System.out.println(result.getContentAsString());
+    }
+
+    @Test
+    public void robotOutsideOfRoom_shouldReturnBadRequest() throws Exception {
+        String jsonRequest = objectMapper.writeValueAsString(new RobotActivityReqDTO(
+                new int[]{5, 5},
+                new int[]{1, 222},
+                List.of(
+                        new int[]{1, 0},
+                        new int[]{2, 2},
+                        new int[]{2, 3}
+                ),
+                "NNESEESWNWW"
+        ));
+        System.out.println(jsonRequest);
+
+        MockHttpServletResponse result = responseFromBadRequest(jsonRequest);
+
+        System.out.println(result.getContentAsString());
+    }
+
+    MockHttpServletResponse responseFromBadRequest(String jsonRequest) throws Exception {
+        return mockMvc.perform(post("/api/v1/execute")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest))
                 .andExpect(status().isBadRequest())
                 .andReturn()
                 .getResponse();
 
-        System.out.println(result.getContentAsString());
     }
 
 }
