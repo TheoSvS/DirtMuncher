@@ -87,7 +87,7 @@ class LookupAlgorithmFootprintStressTest {
 
             System.out.println(System.lineSeparator() + "=======================================");
             System.out.println(gridXsize + "X" + gridYsize + " , dirtRatio:" + String.format("%.6f", dirtyRatio) + " , patches:" + totalDirtyPatches);
-            algoRank.entrySet().forEach(e -> System.out.println(e.getValue() + String.format("  %.3f", (e.getKey().longValue() / 1024d) / 1024d) + "MB"));
+            algoRank.entrySet().forEach(e -> System.out.println(e.getValue() + String.format("  %.3f", (e.getKey() / 1024d) / 1024d) + "MB"));
 
             List<Map.Entry<Long, EAlgorithmSelection>> rankedAlgorithms = new ArrayList<>(algoRank.entrySet());
             //Assert that the optimalFootprint algorithm was selected based on the ranking of the algorithms
