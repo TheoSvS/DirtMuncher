@@ -22,6 +22,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth -> auth
                                 .requestMatchers(HttpMethod.POST).permitAll()
+                                .requestMatchers(HttpMethod.GET).permitAll()
                                 .anyRequest().authenticated()
                 );
 

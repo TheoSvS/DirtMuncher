@@ -11,6 +11,11 @@ docker compose up --build
 
 Send your POST requests with a tool like Postman at http://localhost:8080/api/v1/execute with content-type application/json
 
+Documentation and definition:
+
+http://localhost:8080/v3/api-docs
+
+http://localhost:8080/swagger-ui/index.html
 
 Notes: There are two viable solutions for the dirty patches lookup.
 
