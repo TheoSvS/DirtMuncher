@@ -11,7 +11,8 @@ docker compose up --build
 
 Send your POST requests with a tool like Postman at http://localhost:8080/api/v1/execute with content-type application/json
 
-Notes: There are two viable solutions for the dirty patches lookup. 
+
+Notes: There are two viable solutions for the dirty patches lookup.
 
 One way is a 2D boolean grid that models the whole
 room with the dirty patches having a true value in the grid.
@@ -19,6 +20,9 @@ room with the dirty patches having a true value in the grid.
 Another way is storing only the dirty patch coordinates, in a Hashmap, where key is the X coordinate of the dirty patches,
 and Y coordinate is stored in HashSets that are the values of the HashMap.
 
+Regarding time complexity, both solutions have a constant lookup time O(1). 
+
+However the memory footprint may differ based on the following. 
 There is a ratio used to define the relationship of the number of dirty patches to the number of viable positions in the room.
 This is called the DirtRatio.
 
