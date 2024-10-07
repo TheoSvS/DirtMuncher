@@ -45,6 +45,12 @@ public class SimpleAction implements ISimpleAction {
         }
     }
 
+    /**
+     * Receives a HashMap containing X coords as key and Y coords within Hashsets as values, and the current robot activity state.
+     * It checks whether the position the robot is currently on has dirt and if it is, it cleans the position by removing the X,Y combination from the HashMap
+     * @param dirtCoordsMap the HashMap of dirt patches
+     * @param robotActivityState the current robot activity state
+     */
     public void cleanIfDirty(HashMap<Integer, HashSet<Integer>> dirtCoordsMap, RobotActivityState robotActivityState) {
         int xAxis = robotActivityState.getCurrPos().getXAxis();
         int yAxis = robotActivityState.getCurrPos().getYAxis();
@@ -55,6 +61,12 @@ public class SimpleAction implements ISimpleAction {
     }
 
 
+    /**
+     * Receives a 2D boolean array containing X coords and Y coords and the current robot activity state.
+     * It checks whether the position the robot is currently on has dirt and if it is, it cleans the position by setting the dirtiness of current position to false
+     * @param fullGrid2D the HashMap of dirt patches
+     * @param robotActivityState the current robot activity state
+     */
     public void cleanIfDirty(boolean[][] fullGrid2D, RobotActivityState robotActivityState) {
         int xAxis = robotActivityState.getCurrPos().getXAxis();
         int yAxis = robotActivityState.getCurrPos().getYAxis();

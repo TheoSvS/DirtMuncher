@@ -2,8 +2,8 @@ package com.dirtmuncher.services.impl;
 
 import com.dirtmuncher.Utils;
 import com.dirtmuncher.model.RobotActivityState;
-import com.dirtmuncher.services.def.IExecuteCommands;
 import com.dirtmuncher.services.def.ISimpleAction;
+import com.dirtmuncher.services.def.IExecuteCommands;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -57,6 +57,7 @@ public class ExecuteCommands implements IExecuteCommands {
     }
 
     private void doCommands(RobotActivityState robotActivity, Runnable cleanIfDirtyRunnable) {
+        cleanIfDirtyRunnable.run(); //Cover the case when starting patch is already dirty
         for (int i = 0; i < robotActivity.getInstructions().length(); i++) {
             char command = robotActivity.getInstructions().charAt(i);
             switch (command) {

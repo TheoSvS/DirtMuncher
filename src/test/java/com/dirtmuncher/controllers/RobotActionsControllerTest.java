@@ -1,7 +1,6 @@
-package com.dirtmuncher;
+package com.dirtmuncher.controllers;
 
 import com.dirtmuncher.configuration.LoggingConfiguration;
-import com.dirtmuncher.controllers.RobotActionsController;
 import com.dirtmuncher.requests.RobotActivityReqDTO;
 import com.dirtmuncher.responses.RobotActivityRespDTO;
 import com.dirtmuncher.services.impl.RobotActivityService;

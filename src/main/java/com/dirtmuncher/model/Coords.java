@@ -25,4 +25,11 @@ public class Coords {
         this.yAxis = yAxis;
         this.coords = new int[]{xAxis,yAxis};
     }
+
+    // Custom setter for coords
+    public void setCoords(int[] coords) {
+        this.xAxis = coords[0];
+        this.yAxis = coords[1];
+        this.coords = coords;
+    }
 }
