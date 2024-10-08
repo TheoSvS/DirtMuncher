@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class RobotActivityRespDTO {
-    private int[] coords;
+    private int[] coords = new int[2];
     private int patches;
     public RobotActivityRespDTO(int[] coords, int patchesCleaned) {
         this.coords = coords;
@@ -18,7 +18,6 @@ public class RobotActivityRespDTO {
     }
 
     public RobotActivityRespDTO(Coords coordsObj, int patchesCleaned) {
-        this.coords = new int[2];
         this.coords[0] = coordsObj.getXAxis();
         this.coords[1] = coordsObj.getYAxis();
         this.patches = patchesCleaned;

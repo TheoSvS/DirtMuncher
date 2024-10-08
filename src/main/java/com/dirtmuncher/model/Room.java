@@ -17,11 +17,8 @@ public class Room {
     }
 
     public Room(int xDim, int yDim) {
-        this.dimensions = new int[]{xDim,yDim};
-    }
-
-    public void setDimensions(int[] dimensions) {
-        this.dimensions = dimensions;
+        this.dimensions[0] = xDim;
+        this.dimensions[1] = yDim;
     }
 
     public void setXDim(int xDim) {

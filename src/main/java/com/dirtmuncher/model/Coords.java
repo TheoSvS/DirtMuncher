@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Coords {
-
     private int[] coords = new int[2];
 
     public Coords(int[] coords) {
@@ -17,12 +16,8 @@ public class Coords {
     }
 
     public Coords(int xAxis, int yAxis) {
-        this.coords = new int[]{xAxis, yAxis};
-    }
-
-    // Custom setter for coords
-    public void setCoords(int[] coords) {
-        this.coords = coords;
+        this.coords[0] = xAxis;
+        this.coords[1] = yAxis;
     }
 
     public void setXAxis(int xAxis) {
