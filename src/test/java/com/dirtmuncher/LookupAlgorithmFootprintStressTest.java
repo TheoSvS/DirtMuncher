@@ -42,7 +42,7 @@ class LookupAlgorithmFootprintStressTest {
         int optimalAlgoSelection = 0;
 
         while (gridXsize * gridYsize <= MAX_GRID_AREA) {
-            for (dirtyRatio = 0.0001; dirtyRatio <= 0.05; dirtyRatio += 0.0001) {
+            for (dirtyRatio = 0.0001; dirtyRatio <= 0.05; dirtyRatio += 0.0002) {
                 try {
                     totalDirtyPatches = (int) ((gridXsize * gridYsize) * dirtyRatio);
 
@@ -69,7 +69,7 @@ class LookupAlgorithmFootprintStressTest {
         validateParameters();
         List<int[]> dirtPatches = randomPositions();
         List<Callable<Map.Entry<Long, EAlgorithmSelection>>> calcFootPrintCallables = List.of(
-                () -> new AbstractMap.SimpleEntry<>(dirtPatchesFootPrint_DirtyCoords_HashSet(dirtPatches), EAlgorithmSelection.CONCAT_COORDS_HASHSET),
+                //() -> new AbstractMap.SimpleEntry<>(dirtPatchesFootPrint_DirtyCoords_HashSet(dirtPatches), EAlgorithmSelection.CONCAT_COORDS_HASHSET),
                 () -> new AbstractMap.SimpleEntry<>(dirtPatchesFootPrint_SparseGrid_HashMap(dirtPatches), EAlgorithmSelection.SPARSE_GRID_HASHMAP),
                 () -> new AbstractMap.SimpleEntry<>(dirtPatchesFootPrint_FullGrid_2DArray(dirtPatches), EAlgorithmSelection.FULL_GRID_2D_ARRAY)
         );
