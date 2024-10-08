@@ -68,10 +68,10 @@ public class ExecuteCommands implements IExecuteCommands {
                     iSimpleAction.moveDown(robotActivity.getRoom().getDimensions(), robotActivity);
                 }
                 case 'W' -> {
-                    iSimpleAction.moveRight(robotActivity.getRoom().getDimensions(), robotActivity);
+                    iSimpleAction.moveLeft(robotActivity.getRoom().getDimensions(), robotActivity);
                 }
                 case 'E' -> {
-                    iSimpleAction.moveLeft(robotActivity.getRoom().getDimensions(), robotActivity);
+                    iSimpleAction.moveRight(robotActivity.getRoom().getDimensions(), robotActivity);
                 }
             }
             cleanIfDirtyRunnable.run();

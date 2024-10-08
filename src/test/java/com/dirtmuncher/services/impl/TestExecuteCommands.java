@@ -110,7 +110,7 @@ class TestExecuteCommands {
 
         // Assert the robot has cleaned all patches
         Coords finalCoords = robotActivityState.getCurrPos();
-        assertEquals(3, finalCoords.getXAxis());
+        assertEquals(1, finalCoords.getXAxis());
         assertEquals(3, finalCoords.getYAxis());
         assertEquals(3, robotActivityState.getCleanedCounter()); // All patches cleaned
     }
