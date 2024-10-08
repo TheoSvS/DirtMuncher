@@ -36,13 +36,13 @@ class LookupAlgorithmFootprintStressTest {
     @Disabled("Skipping this test during maven build")
     @Test
     void evaluateAlgorithmSelectionByFootprint_rangeInputs() throws InterruptedException {
-        gridXsize = 10;
-        gridYsize = 10;
+        gridXsize = 1000;
+        gridYsize = 1000;
         int totalTestCases = 0;
         int optimalAlgoSelection = 0;
 
         while (gridXsize * gridYsize <= MAX_GRID_AREA) {
-            for (dirtyRatio = 0.01; dirtyRatio <= 0.05; dirtyRatio += 0.001) {
+            for (dirtyRatio = 0.0001; dirtyRatio <= 0.05; dirtyRatio += 0.0001) {
                 try {
                     totalDirtyPatches = (int) ((gridXsize * gridYsize) * dirtyRatio);
 

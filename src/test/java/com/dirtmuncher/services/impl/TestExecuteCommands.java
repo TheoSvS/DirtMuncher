@@ -6,6 +6,7 @@ import com.dirtmuncher.model.Room;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,36 +21,26 @@ class TestExecuteCommands {
     void setUp() {
         simpleAction = new SimpleAction();
         executeCommands = new ExecuteCommands(simpleAction);
-
-        int[] roomSize = {5, 5};
-        int[] initialPos = {1, 2};
-        List<int[]> dirtPatches = List.of(
-                new int[]{1, 0},
-                new int[]{2, 2},
-                new int[]{2, 3}
-        );
-        String instructions = "NNESEESWNWW";  // Sample movement instructions
-
-        robotActivityState = new RobotActivityState(roomSize, initialPos, dirtPatches, instructions, 0);
+        robotActivityState = new RobotActivityState();
     }
 
     @Test
     void executePlan_shouldMoveAndCleanProperly_sparseGrid() {
-        // Set initial state for robot in a small room
-        robotActivityState.setRoom(new Room(5, 5)); // Room dimensions
-        robotActivityState.setCurrPos(new Coords(1, 2)); // Initial position
-        robotActivityState.setPatches(List.of(
-                new int[]{1, 0},
-                new int[]{2, 2},
-                new int[]{2, 3}
-        )); // Dirt patches
+        List<int[]> dirtPatches = List.of(
+                new int[]{3, 3}
+        );
+
+        robotActivityState.setRoom(new Room(10,10));
+        robotActivityState.setCurrPos(new Coords(1,2));
+        robotActivityState.setPatches(dirtPatches);
+        robotActivityState.setInstructions("NNESEESWNWW");
 
         // Execute the commands
         executeCommands.executePlan(robotActivityState);
 
         // Assert the final state (robot's position and cleaned dirt count)
         Coords finalCoords = robotActivityState.getCurrPos();
-        assertEquals(3, finalCoords.getXAxis());
+        assertEquals(1, finalCoords.getXAxis());
         assertEquals(3, finalCoords.getYAxis());
         assertEquals(1, robotActivityState.getCleanedCounter());
     }
@@ -71,7 +62,7 @@ class TestExecuteCommands {
 
         // Assert the final state
         Coords finalCoords = robotActivityState.getCurrPos();
-        assertEquals(2, finalCoords.getXAxis());
+        assertEquals(4, finalCoords.getXAxis());
         assertEquals(4, finalCoords.getYAxis());
         assertEquals(1, robotActivityState.getCleanedCounter());
     }
@@ -80,8 +71,9 @@ class TestExecuteCommands {
     void executePlan_shouldNotMoveOutsideRoom() {
         // Set initial state where robot is at the edge of the room
         robotActivityState.setRoom(new Room(5, 5));
+        robotActivityState.setPatches(new ArrayList<>());
         robotActivityState.setCurrPos(new Coords(4, 4)); // Robot at upper-right corner
-        robotActivityState.setInstructions("NNWW"); // Trying to move out of bounds
+        robotActivityState.setInstructions("NNEE"); // Trying to move out of bounds
 
         // Execute the commands
         executeCommands.executePlan(robotActivityState);

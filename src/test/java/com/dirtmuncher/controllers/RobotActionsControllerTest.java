@@ -1,15 +1,10 @@
 package com.dirtmuncher.controllers;
 
-import com.dirtmuncher.configuration.LoggingConfiguration;
 import com.dirtmuncher.requests.RobotActivityReqDTO;
 import com.dirtmuncher.responses.RobotActivityRespDTO;
-import com.dirtmuncher.services.impl.RobotActivityService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -34,15 +29,6 @@ public class RobotActionsControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Mock
-    private RobotActivityService mockRobotActivityService = Mockito.mock(RobotActivityService.class);
-
-    @Mock
-    private LoggingConfiguration mockLoggingConfiguration;
-
-    @InjectMocks
-    private RobotActionsController robotActionsController;
 
     @Test
     public void shouldReturnOk_shouldAssertExpectedResult() throws Exception {
