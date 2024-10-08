@@ -10,19 +10,33 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Room {
-    private int xDim;
-    private int yDim;
-    private int[] dimensions;
+    private int[] dimensions = new int[2];
 
     public Room(int[] dimensions) {
-        this.xDim = dimensions[0];
-        this.yDim = dimensions[1];
         this.dimensions = dimensions;
     }
 
     public Room(int xDim, int yDim) {
-        this.xDim = xDim;
-        this.yDim = yDim;
         this.dimensions = new int[]{xDim,yDim};
+    }
+
+    public void setDimensions(int[] dimensions) {
+        this.dimensions = dimensions;
+    }
+
+    public void setXDim(int xDim) {
+        this.dimensions[0] = xDim;
+    }
+
+    public void setYDim(int yDim) {
+        this.dimensions[1] = yDim;
+    }
+
+    public int getXDim() {
+        return this.dimensions[0];
+    }
+
+    public int getYDim() {
+        return this.dimensions[1];
     }
 }
