@@ -5,6 +5,9 @@ import com.dirtmuncher.model.RobotActivityState;
 import java.util.HashMap;
 import java.util.HashSet;
 
+/**
+ * Interface for the robot's supported actions
+ */
 public interface ISimpleAction {
     void moveUp(int[] room, RobotActivityState robotActivityState);
 

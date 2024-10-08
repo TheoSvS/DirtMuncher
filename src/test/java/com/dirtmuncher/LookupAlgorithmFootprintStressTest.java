@@ -1,5 +1,6 @@
 package com.dirtmuncher;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openjdk.jol.info.GraphLayout;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +15,7 @@ import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 @SpringBootTest
-class DirtMuncherApplicationTests {
+class LookupAlgorithmFootprintStressTest {
     static final int MAX_GRID_AREA = 1000000;
     static int gridXsize;
     static int gridYsize;
@@ -32,15 +33,16 @@ class DirtMuncherApplicationTests {
 
     }
 
+    @Disabled("Skipping this test during maven build")
     @Test
     void evaluateAlgorithmSelectionByFootprint_rangeInputs() throws InterruptedException {
-        gridXsize = 10;
-        gridYsize = 10;
+        gridXsize = 1000;
+        gridYsize = 1000;
         int totalTestCases = 0;
         int optimalAlgoSelection = 0;
 
         while (gridXsize * gridYsize <= MAX_GRID_AREA) {
-            for (dirtyRatio = 0.01; dirtyRatio <= 0.05; dirtyRatio += 0.001) {
+            for (dirtyRatio = 0.0001; dirtyRatio <= 0.05; dirtyRatio += 0.0002) {
                 try {
                     totalDirtyPatches = (int) ((gridXsize * gridYsize) * dirtyRatio);
 
@@ -50,7 +52,6 @@ class DirtMuncherApplicationTests {
                 } catch (AssertionError e) {
                     totalTestCases++;
                     System.err.println("Assertion failed: " + e.getMessage());
-                    e.printStackTrace();
                 } catch (InvalidDirtynessInputException e) {
                     System.err.println(e.getMessage());
                 }
@@ -61,14 +62,14 @@ class DirtMuncherApplicationTests {
                 gridYsize = gridYsize * 10;
             }
         }
-        System.out.println("Optimal Algo selection:" + (100d * optimalAlgoSelection) / totalTestCases + "% of cases");
+        System.out.println("\n\nOptimal Algo selection:" + (100d * optimalAlgoSelection) / totalTestCases + "% of cases");
     }
 
     void rankBySmallestFootprint() throws InterruptedException {
         validateParameters();
         List<int[]> dirtPatches = randomPositions();
         List<Callable<Map.Entry<Long, EAlgorithmSelection>>> calcFootPrintCallables = List.of(
-                () -> new AbstractMap.SimpleEntry<>(dirtPatchesFootPrint_DirtyCoords_HashSet(dirtPatches), EAlgorithmSelection.CONCAT_COORDS_HASHSET),
+                //() -> new AbstractMap.SimpleEntry<>(dirtPatchesFootPrint_DirtyCoords_HashSet(dirtPatches), EAlgorithmSelection.CONCAT_COORDS_HASHSET),
                 () -> new AbstractMap.SimpleEntry<>(dirtPatchesFootPrint_SparseGrid_HashMap(dirtPatches), EAlgorithmSelection.SPARSE_GRID_HASHMAP),
                 () -> new AbstractMap.SimpleEntry<>(dirtPatchesFootPrint_FullGrid_2DArray(dirtPatches), EAlgorithmSelection.FULL_GRID_2D_ARRAY)
         );
@@ -87,7 +88,7 @@ class DirtMuncherApplicationTests {
 
             System.out.println(System.lineSeparator() + "=======================================");
             System.out.println(gridXsize + "X" + gridYsize + " , dirtRatio:" + String.format("%.6f", dirtyRatio) + " , patches:" + totalDirtyPatches);
-            algoRank.entrySet().forEach(e -> System.out.println(e.getValue() + String.format("%.3f", (e.getKey().longValue() / 1024d) / 1024d) + "MB"));
+            algoRank.entrySet().forEach(e -> System.out.println(e.getValue() + String.format("  %.3f", (e.getKey() / 1024d) / 1024d) + "MB"));
 
             List<Map.Entry<Long, EAlgorithmSelection>> rankedAlgorithms = new ArrayList<>(algoRank.entrySet());
             //Assert that the optimalFootprint algorithm was selected based on the ranking of the algorithms

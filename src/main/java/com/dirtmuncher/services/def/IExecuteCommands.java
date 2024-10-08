@@ -1,11 +1,11 @@
 package com.dirtmuncher.services.def;
 
 import com.dirtmuncher.model.RobotActivityState;
-import com.dirtmuncher.requests.RobotActivityReqDTO;
 
-import java.util.List;
-
+/**
+ * Interface for robot commands execution
+ */
 public interface IExecuteCommands {
 
-    public RobotActivityState executePlan(RobotActivityReqDTO robotActivityReqDTO);
+    public void executePlan(RobotActivityState robotActivityState);
 }

@@ -15,7 +15,9 @@
     <name>DirtMuncher</name>
     <description>DirtMuncher</description>
     <properties>
-        <java.version>22</java.version>
+        <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -84,6 +86,24 @@
             <groupId>org.openjdk.jol</groupId>
             <artifactId>jol-core</artifactId>
             <version>0.10</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>8.0.1.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.2.0</version>
         </dependency>
 
     </dependencies>
