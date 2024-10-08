@@ -38,8 +38,8 @@ public class RobotActivityReqDTO {
         return patches.parallelStream()
                 .noneMatch(coords -> coords == null
                         || coords.length != 2
-                        || coords[0] > roomSize[0]
-                        || coords[1] > roomSize[1]
+                        || coords[0] > roomSize[0]-1
+                        || coords[1] > roomSize[1]-1
                         || coords[0] < 0
                         || coords[1] < 0
                 );
